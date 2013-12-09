@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -330,6 +331,11 @@ public class ErrbitNotifier {
             s.startTag("", "var");
             s.attribute("", "key", "App Version");
             s.text(versionName);
+            s.endTag("", "var");
+
+            s.startTag("", "var");
+            s.attribute("", "key", "Phone Language");
+            s.text(Locale.getDefault().getLanguage());
             s.endTag("", "var");
 
             // Extra info, if present
