@@ -316,20 +316,6 @@ public class ErrbitNotifier {
       s.endTag("", "action");
       s.startTag("", "cgi-data");
 
-      if(breadCrumbs != null && !breadCrumbs.isEmpty()) {
-        s.startTag("", "params");
-        s.startTag("", "var"); 
-        s.attribute("","key", "breadcrumbs");
-
-        for(String breadcrumb : breadCrumbs) {
-          s.text("- "+ breadcrumb + "\n");
-        }
-
-        s.endTag("","var");
-        s.endTag("","params");
-        s.endTag("", "var");
-      }
-
       s.startTag("", "var");
       s.attribute("", "key", "Manufacturer");
       s.text(manufacturerDevice);
@@ -360,13 +346,6 @@ public class ErrbitNotifier {
       s.text(Locale.getDefault().getLanguage());
       s.endTag("", "var");
 
-      if(environment != null) {
-        s.startTag("", "var");
-        s.attribute("", "key", "Stage");
-        s.text(environment);
-        s.endTag("", "var");
-      }
-
       // Extra info, if present
       if (extraData != null && !extraData.isEmpty()) {
         for (Map.Entry<String, String> extra : extraData.entrySet()) {
@@ -375,6 +354,23 @@ public class ErrbitNotifier {
           s.text(extra.getValue());
           s.endTag("", "var");
         }
+      }
+
+      if(breadCrumbs != null && !breadCrumbs.isEmpty()) {
+        s.startTag("", "var");
+        s.attribute("","key", "breadcrumbs");
+
+        int i = 1;
+
+        for(String breadcrumb : breadCrumbs) {
+          s.startTag("","var");
+          s.attribute("", "key", ""+i);
+          s.text(breadcrumb);
+          s.endTag("", "var");
+          i++;
+        }
+
+        s.endTag("","var");
       }
 
       // Metadata, if present
@@ -393,7 +389,7 @@ public class ErrbitNotifier {
       // Production/development mode flag and app version
       s.startTag("", "server-environment");
       s.startTag("", "environment-name");
-      s.text(environmentName);
+      s.text(environment);
       s.endTag("", "environment-name");
       s.startTag("", "app-version");
       s.text(versionName);
