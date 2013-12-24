@@ -68,6 +68,7 @@ public class ErrbitNotifier {
   private static final String ENVIRONMENT_PRODUCTION = "production";
   private static final String ENVIRONMENT_DEFAULT = ENVIRONMENT_PRODUCTION;
   private static boolean ssl = false;
+  private static String environment;
 
   // Exception meta-data
   private static String environmentName = ENVIRONMENT_DEFAULT;
@@ -122,6 +123,10 @@ public class ErrbitNotifier {
 
   public static void setSsl(boolean ssl_setting) {
     ssl = ssl_setting;
+  }
+
+  public static void setEnvironment(String environment) {
+    ErrbitNotifier.environment = environment;
   }
 
   public static boolean isSsl() {
@@ -341,6 +346,13 @@ public class ErrbitNotifier {
       s.text(Locale.getDefault().getLanguage());
       s.endTag("", "var");
 
+      if(environment != null) {
+        s.startTag("", "var");
+        s.attribute("", "key", "Stage");
+        s.text(environment);
+        s.endTag("", "var");
+      }
+
       // Extra info, if present
       if (extraData != null && !extraData.isEmpty()) {
         for (Map.Entry<String, String> extra : extraData.entrySet()) {
@@ -355,7 +367,7 @@ public class ErrbitNotifier {
           s.startTag("", "var");
           s.attribute("", "key", "breadcrumbs");
           for(String breadcrumb : breadCrumbs) {
-            s.text("- "+breadcrumb + '\n');
+            s.text("- "+ breadcrumb + '\n');
           }
           s.endTag("", "var");
       }
