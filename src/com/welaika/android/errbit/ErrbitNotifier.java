@@ -316,6 +316,20 @@ public class ErrbitNotifier {
       s.endTag("", "action");
       s.startTag("", "cgi-data");
 
+      if(breadCrumbs != null && !breadCrumbs.isEmpty()) {
+        s.startTag("", "params");
+        s.startTag("", "var"); 
+        s.attribute("","key", "breadcrumbs");
+
+        for(String breadcrumb : breadCrumbs) {
+          s.text("- "+ breadcrumb + "\n");
+        }
+
+        s.endTag("","var");
+        s.endTag("","params");
+        s.endTag("", "var");
+      }
+
       s.startTag("", "var");
       s.attribute("", "key", "Manufacturer");
       s.text(manufacturerDevice);
@@ -361,15 +375,6 @@ public class ErrbitNotifier {
           s.text(extra.getValue());
           s.endTag("", "var");
         }
-      }
-
-      if(breadCrumbs != null && !breadCrumbs.isEmpty()) {
-          s.startTag("", "var");
-          s.attribute("", "key", "breadcrumbs");
-          for(String breadcrumb : breadCrumbs) {
-            s.text("- "+ breadcrumb + '\n');
-          }
-          s.endTag("", "var");
       }
 
       // Metadata, if present
