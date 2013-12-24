@@ -355,7 +355,7 @@ public class ErrbitNotifier {
           s.startTag("", "var");
           s.attribute("", "key", "breadcrumbs");
           for(String breadcrumb : breadCrumbs) {
-            s.text(breadcrumb);
+            s.text("- "+breadcrumb + '\n');
           }
           s.endTag("", "var");
       }
